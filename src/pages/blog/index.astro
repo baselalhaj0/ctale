@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="Noutăți & Anunțuri" description="Ultimele noutăți și anunțuri de la Colegiul Tehnic Alexandru Roman Aleșd.">
+
+  <!-- Header -->
+  <div class="bg-school-navy py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-school-accent font-semibold text-sm uppercase tracking-wider mb-2">CT Alexandru Roman</p>
+      <h1 class="font-display text-4xl md:text-5xl font-black text-white">Noutăți & Anunțuri</h1>
+    </div>
+  </div>
+
+  <!-- Posts grid -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    {posts.length === 0 ? (
+      <div class="text-center py-20 text-gray-400">
+        <p class="text-5xl mb-4">📭</p>
+        <p class="text-lg">Nicio postare momentan.</p>
+      </div>
+    ) : (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {posts.map(post => (
+          <a href={`/blog/${post.id}`}class="card group">
+            {post.data.image && (
+              <div class="overflow-hidden aspect-video bg-school-light">
+                <img
+                  src={post.data.image}
+                  alt={post.data.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            )}
+            <div class="p-6">
+              <time class="text-xs text-gray-400 font-medium">
+                {post.data.date.toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' })}
+              </time>
+              {post.data.tags && (
+                <div class="flex flex-wrap gap-1 mt-2">
+                  {post.data.tags.map((tag: string) => (
+                    <span class="text-xs bg-school-light text-school-blue px-2 py-0.5 rounded-full font-medium">{tag}</span>
+                  ))}
+                </div>
+              )}
+              <h2 class="font-display font-bold text-school-navy text-lg mt-2 mb-2 group-hover:text-school-blue transition-colors leading-snug">
+                {post.data.title}
+              </h2>
+              {post.data.excerpt && (
+                <p class="text-gray-500 text-sm leading-relaxed line-clamp-3">{post.data.excerpt}</p>
+              )}
+              <span class="inline-flex items-center gap-1 text-school-blue text-sm font-semibold mt-4 group-hover:gap-2 transition-all">
+                Citește mai mult <span>→</span>
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    )}
+  </section>
+
+</BaseLayout>

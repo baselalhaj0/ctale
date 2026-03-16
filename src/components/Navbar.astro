@@ -1,0 +1,129 @@
+---
+const navItems = [
+  { label: 'Acasă', href: '/' },
+  {
+    label: 'Despre noi',
+    href: '#',
+    children: [
+      { label: 'Scurt Istoric', href: '/despre/istoric' },
+      { label: 'Misiunea Școlii', href: '/despre/misiune' },
+      { label: 'Ofertă Educațională', href: '/oferta-educationala' },
+      { label: 'Corp Profesoral', href: '/despre/corp-profesoral' },
+      { label: 'Organigramă', href: '/files/organigram.pdf' },
+    ]
+  },
+  { label: 'Proiecte', href: '/proiecte' },
+  { label: 'Documente', href: '/documente' },
+  {
+    label: 'Examene',
+    href: '#',
+    children: [
+      { label: 'Bacalaureat', href: '/examene/bac' },
+      { label: 'Admitere', href: '/examene/admitere' },
+      { label: 'Evaluarea Națională', href: '/examene/evaluare-nationala' },
+      { label: 'Înscriere', href: '/examene/inscriere' },
+    ]
+  },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '/contact' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 bg-school-navy shadow-lg">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 bg-school-accent rounded-lg flex items-center justify-center font-display font-black text-school-navy text-lg group-hover:scale-105 transition-transform">
+          CT
+        </div>
+        <div class="hidden sm:block">
+          <div class="text-white font-display font-bold text-sm leading-tight">Colegiul Tehnic</div>
+          <div class="text-school-accent text-xs font-medium">"Alexandru Roman" Aleșd</div>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden lg:flex items-center gap-1">
+        {navItems.map(item => (
+          item.children ? (
+            <div class="relative group">
+              <button class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center gap-1 transition-colors">
+                {item.label}
+                <svg class="w-4 h-4 group-hover:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="absolute top-full left-0 mt-1 w-52 bg-white rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 overflow-hidden">
+                {item.children.map(child => (
+                  <a href={child.href} class="block px-4 py-3 text-sm text-school-text hover:bg-school-light hover:text-school-blue transition-colors border-b border-gray-50 last:border-0">
+                    {child.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <a
+              href={item.href}
+              class={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                currentPath === item.href
+                  ? 'text-school-accent bg-white/10'
+                  : 'text-gray-300 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              {item.label}
+            </a>
+          )
+        ))}
+      </nav>
+
+      <!-- Mobile menu button -->
+      <button id="mobile-menu-btn" class="lg:hidden text-gray-300 hover:text-white p-2 rounded-md">
+        <svg id="menu-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden lg:hidden bg-school-blue border-t border-white/10">
+    <div class="px-4 py-3 space-y-1">
+      {navItems.map(item => (
+        item.children ? (
+          <div>
+            <div class="text-gray-400 text-xs uppercase tracking-wider px-3 pt-3 pb-1">{item.label}</div>
+            {item.children.map(child => (
+              <a href={child.href} class="block px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-md transition-colors">
+                {child.label}
+              </a>
+            ))}
+          </div>
+        ) : (
+          <a href={item.href} class="block px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-md transition-colors">
+            {item.label}
+          </a>
+        )
+      ))}
+    </div>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  btn?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+    menuIcon?.classList.toggle('hidden');
+    closeIcon?.classList.toggle('hidden');
+  });
+</script>

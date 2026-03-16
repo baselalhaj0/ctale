@@ -1,0 +1,21 @@
+backend:
+  name: github
+  repo: baselalhaj0/ctale
+  branch: main
+
+media_folder: public/images
+public_folder: /images
+
+collections:
+  - name: blog
+    label: Postari
+    folder: src/content/blog
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Titlu, name: title, widget: string }
+      - { label: Data, name: date, widget: datetime }
+      - { label: Rezumat, name: excerpt, widget: text, required: false }
+      - { label: Imagine, name: image, widget: image, required: false }
+      - { label: Taguri, name: tags, widget: list, required: false }
+      - { label: Continut, name: body, widget: markdown }
