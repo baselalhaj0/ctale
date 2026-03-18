@@ -1,8 +1,6 @@
 backend:
-  name: github
-  repo: baselalhaj0/ctale
+  name: git-gateway
   branch: main
-  auth_type: pkce
 
 media_folder: public/images
 public_folder: /images
