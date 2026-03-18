@@ -4,7 +4,7 @@ import { getCollection } from "astro:content";
 
 const posts = (await getCollection("blog"))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 6);
+  .slice(0, 5);
 
 const stats = [
   { number: "800+", label: "Elevi" },
