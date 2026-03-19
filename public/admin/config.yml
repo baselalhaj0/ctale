@@ -17,4 +17,10 @@ collections:
       - { label: Rezumat, name: excerpt, widget: text, required: false }
       - { label: Imagine, name: image, widget: image, required: false }
       - { label: Taguri, name: tags, widget: list, required: false }
+      - label: Fisier PDF
+        name: pdf
+        widget: file
+        required: false
+        media_folder: /public/documents
+        public_folder: /documents
       - { label: Continut, name: body, widget: markdown }
